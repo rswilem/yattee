@@ -273,7 +273,9 @@ struct SettingsView: View {
                     #endif
                 }
             }
+            #if !os(tvOS)
             .frame(maxWidth: 1000)
+            #endif
             #if os(iOS)
                 .listStyle(.insetGrouped)
             #endif
