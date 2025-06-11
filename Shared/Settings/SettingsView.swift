@@ -138,12 +138,15 @@ struct SettingsView: View {
     }
 
     struct SettingsLabel: LabelStyle {
+        @Environment(\.isFocused) var isFocused
+        
         func makeBody(configuration: Configuration) -> some View {
             #if os(tvOS)
                 Label {
                     configuration.title.padding(.leading, 10)
                 } icon: {
                     configuration.icon
+                        .foregroundColor(isFocused ? .appRed : .white)
                 }
             #else
                 Label(configuration)

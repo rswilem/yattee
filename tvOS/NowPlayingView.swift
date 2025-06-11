@@ -48,6 +48,11 @@ struct NowPlayingView: View {
 
                             Button("Cancel", role: .cancel) {}
                         }
+                        #if os(tvOS)
+                        .buttonStyle(.card)
+                        #else
+                        .buttonStyle(.plain)
+                        #endif
                     }
                     .onPlayPauseCommand(perform: player.togglePlay)
                 }
@@ -76,6 +81,11 @@ struct NowPlayingView: View {
                                     player.removeQueueItems()
                                 }
                             }
+                            #if os(tvOS)
+                            .buttonStyle(.card)
+                            #else
+                            .buttonStyle(.plain)
+                            #endif
                         }
                     }
                 }
@@ -91,6 +101,11 @@ struct NowPlayingView: View {
                             .contextMenu {
                                 VideoContextMenuView(video: video)
                             }
+                            #if os(tvOS)
+                            .buttonStyle(.card)
+                            #else
+                            .buttonStyle(.plain)
+                            #endif
                         }
                     }
                 }
@@ -149,7 +164,9 @@ struct NowPlayingView: View {
             .padding(.vertical, 20)
         }
         .padding(.horizontal, inInfoViewController ? 40 : 0)
+        #if !os(tvOS)
         .listStyle(.grouped)
+        #endif
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 560, maxHeight: .infinity, alignment: .leading)
     }
 

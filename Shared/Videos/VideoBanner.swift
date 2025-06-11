@@ -17,7 +17,8 @@ struct VideoBanner: View {
     @Default(.timeOnThumbnail) private var timeOnThumbnail
     @Default(.roundedThumbnails) private var roundedThumbnails
     @Default(.showChannelAvatarInVideosListing) private var showChannelAvatarInVideosListing
-
+    
+    @Environment(\.isFocused) var isFocused
     @Environment(\.inChannelView) private var inChannelView
     @Environment(\.inNavigationView) private var inNavigationView
     @Environment(\.navigationStyle) private var navigationStyle
@@ -267,8 +268,8 @@ struct VideoBanner: View {
                 Text(timeLabel)
                     .font(.caption2.weight(.semibold).monospacedDigit())
                     .allowsTightening(true)
-                    .padding(2)
-                    .modifier(ControlBackgroundModifier())
+                    .padding(4)
+                    .modifier(ControlBackgroundModifier(cornerRadius: 8))
             }
         }
     }

@@ -2,15 +2,21 @@ import Foundation
 import SwiftUI
 
 struct ControlBackgroundModifier: ViewModifier {
+    public var cornerRadius: CGFloat = 8
     var enabled = true
     var edgesIgnoringSafeArea = Edge.Set()
 
     func body(content: Content) -> some View {
         if enabled {
-            if #available(iOS 15, macOS 12, *) {
+            if #available(tvOS 26.0, iOS 26.0, macOS 26.0, *) {
+                content
+                    .glassEffect(in: .rect(cornerRadius: cornerRadius))
+            }
+            else if #available(iOS 15, macOS 12, *) {
                 content
                     .background(.thinMaterial)
-            } else {
+            }
+            else {
                 content
                 #if os(macOS)
                 .background(VisualEffectBlur(material: .hudWindow))
@@ -20,8 +26,12 @@ struct ControlBackgroundModifier: ViewModifier {
                 .background(.thinMaterial)
                 #endif
             }
-        } else {
-            content
         }
+    }
+}
+
+struct ControlBackgroundModifier_Previews: PreviewProvider {
+    static var previews: some View {
+        Buffering_Previews.previews;
     }
 }

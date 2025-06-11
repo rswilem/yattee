@@ -16,7 +16,7 @@ struct Buffering: View {
     }
 
     var body: some View {
-        VStack(spacing: 2) {
+        VStack(spacing: 32) {
             ProgressView()
             #if os(macOS)
                 .scaleEffect(0.4)
@@ -26,22 +26,44 @@ struct Buffering: View {
                 .frame(maxHeight: 14)
                 .progressViewStyle(.circular)
 
-            Text(reason)
-                .font(.system(size: playerControlsLayout.timeFontSize))
-            if let state {
-                Text(state)
-                    .font(.system(size: playerControlsLayout.bufferingStateFontSize).monospacedDigit())
+            VStack(spacing: 8) {
+                Text(reason)
+                    .font(.system(size: playerControlsLayout.timeFontSize))
+                if let state {
+                    Text(state)
+                        .font(.system(size: playerControlsLayout.bufferingStateFontSize).monospacedDigit())
+                }
             }
         }
-        .padding(8)
-        .modifier(ControlBackgroundModifier())
-        .clipShape(RoundedRectangle(cornerRadius: 4))
+        #if os(tvOS)
+        .padding(32)
+        .modifier(ControlBackgroundModifier(cornerRadius: 32))
+        #else
+        .padding(16)
+        .modifier(ControlBackgroundModifier(cornerRadius: 8))
+        #endif
         .foregroundColor(.secondary)
     }
 }
 
 struct Buffering_Previews: PreviewProvider {
     static var previews: some View {
-        Buffering(state: "100% (2.95s)")
+        VStack(spacing: 20) {
+            Buffering(reason: "Loading streams…")
+            
+            Buffering(state: "100% (2.95s)")
+            
+            Buffering(reason: "Opening 1080p stream…", state: nil)
+            
+            Spacer()
+        }
+        .padding(100)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(LinearGradient(
+            gradient: Gradient(colors: [.blue, .purple]),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        ))
+        .ignoresSafeArea()
     }
 }
